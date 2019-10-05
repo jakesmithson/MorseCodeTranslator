@@ -7,6 +7,8 @@ import java.util.*;
  * @author Jake Smithson
  */
 public class MorseCodeTranslator {
+
+
     public static final String[] ALPHA = "a b c d e f g h i j k l m n o p q r s t u v w x y z".split(" ");
     public static final String[] MORSE = "*- -*** -*-* -** * **-* --* **** ** *--- -*- *-** -- -* --- *--* --*- *-* *** - **- ***- *-- -**- -*-- --**".split(" ");
     public static Scanner in = new Scanner(System.in);
@@ -25,9 +27,9 @@ public class MorseCodeTranslator {
         for(int i = 0; i < MORSE.length; i++) {
             MORSE_ALPHA.put(MORSE[i], ALPHA[i]);
         }
-
-        //englishToMorse("I sure hope this works", ALPHA_MORSE);
-        //morseToEnglish("**       ***   **-   *-*   *       ****   ---   *--*   *       -   ****   **   ***       *--   ---   *-*   -*-   ***", MORSE_ALPHA);
+        //englishToMorse("a bc", ALPHA_MORSE);
+        morseToEnglishCorrect("*-   -***   -*-*   -**       *   **-*", MORSE_ALPHA);
+        //morseToEnglish("*-   -***   -*-*   -**       *   **-*", MORSE_ALPHA);
     }
 
     /**
@@ -71,6 +73,7 @@ public class MorseCodeTranslator {
         String result = "";
         str = str.trim();
         for(int i = 0; i < str.length(); i++) {
+            System.out.println(i);
             if(i + 6 < str.length() && str.substring(i,i+6).equals("       ")) {
                 result += " ";
                 i += 6;
@@ -88,5 +91,48 @@ public class MorseCodeTranslator {
             }
         }
         System.out.println("Your translated result is:\n" + result);
+    }
+
+    public static void morseToEnglishCorrect(String str, HashMap<String, String> map) {
+        String result = "";
+        String buf = "";
+        for(int i = 0; i < str.length(); i++) {
+            
+            buf += str.substring(i, i + 1);
+            //System.out.println(buf);
+            if(buf.endsWith(" ")) {
+                //System.out.println("|"+buf+"|");
+                buf = buf.trim();
+                if(map.get(buf) != null) {
+                    
+                    result += map.get(buf);
+                    buf = "";
+                    result += parseSpaces(str, i);
+                    if(result.endsWith(" ")) {
+                        i += 6;
+                        System.out.println(i);
+                        System.out.println(str.length());
+                        
+                    }
+                    else {
+                        i += 2;
+                    }
+                }
+            }
+        }
+        System.out.println(result);
+    }
+
+    public static String parseSpaces(String str, int index) {
+        if(index == str.length()) {
+            return "";
+        }
+        //System.out.println(str.substring(index, index + 7));
+        if(str.substring(index, index + 7).equals("       ")) {
+            return " ";
+        }
+        else {
+            return "";
+        }
     }
 }
