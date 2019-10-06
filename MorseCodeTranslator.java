@@ -18,7 +18,7 @@ public class MorseCodeTranslator {
      * then asks for a string to be translated. Prints the translated string in the opposite language.
      * @param args command line args (not used)
      */
-    public static void main(String[] args) {
+public static void main(String[] args) {
         HashMap<String, String> ALPHA_MORSE = new HashMap<String, String>();
         for(int i = 0; i < ALPHA.length; i++) {
             ALPHA_MORSE.put(ALPHA[i], MORSE[i]);
@@ -96,28 +96,32 @@ public class MorseCodeTranslator {
     public static void morseToEnglishCorrect(String str, HashMap<String, String> map) {
         String result = "";
         String buf = "";
-        for(int i = 0; i < str.length(); i++) {
-            
+        int i = 0;
+        for(i = 0; i < str.length(); i++) {
             buf += str.substring(i, i + 1);
             //System.out.println(buf);
             if(buf.endsWith(" ")) {
                 //System.out.println("|"+buf+"|");
                 buf = buf.trim();
                 if(map.get(buf) != null) {
-                    
                     result += map.get(buf);
                     buf = "";
                     result += parseSpaces(str, i);
                     if(result.endsWith(" ")) {
                         i += 6;
-                        System.out.println(i);
-                        System.out.println(str.length());
-                        
                     }
                     else {
                         i += 2;
                     }
                 }
+            }
+        }
+        // Don't forget to check map
+        // if buf contains text
+        if (!(buf.equals(""))) {
+            String s = map.get(buf);
+            if (s != null) {
+                result += s;
             }
         }
         System.out.println(result);
